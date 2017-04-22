@@ -1,0 +1,12 @@
+sudo: false
+
+jobs:
+  include:
+    - stage: Unit test the services
+      script: echo unit tests pass
+    - stage: Integration test the services
+      script: echo integration tests pass
+    - stage: Acceptance tests
+      script: echo acceptance tests fail && false
+    - stage: Deploy the apps!
+      script: echo Apps deployed
