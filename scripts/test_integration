@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+system <<-BASH
+cd ../travis-test-app
+nohup bundle exec rails server -p 3001 &
+while true; do
+  curl 'http://localhost:3001/parts' 2>/dev/null 1>/dev/null && break
+done
+BASH
+
+require 'rest-client'
+require 'rspec/autorun'
+require 'json'
+
+RSpec.describe 'the app' do
+  it 'can be posted to' do
+    response = RestClient::Request.execute(
+      method:        :post,
+      url:           'http://localhost:3001/parts',
+      payload:       {part: {sku: 'new-sku'}},
+      headers:       {accept: 'application/json'}
+    )
+    expect(response.code).to eq 201
+    response_body = JSON.parse response.body, symbolize_names: true
+    expect(response_body.fetch :sku).to eq 'new-sku'
+  end
+end

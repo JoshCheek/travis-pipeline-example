@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+gem install bundler
+bundle install
+
+echo "Current dir: $PWD"
+
+pushd ..
+  git clone "https://github.com/JoshCheek/travis-test-app"
+  pushd "travis-test-app"
+    bundle install
+    rake db:reset
+  popd
+popd

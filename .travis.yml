@@ -1,12 +1,11 @@
 sudo: false
+dist: trusty
 
 jobs:
   include:
-    - stage: unit tests
-      script: echo unit tests pass
-    - stage: integration tests
-      script: echo integration tests pass
-    - stage: acceptance tests
-      script: echo acceptance tests fail && false
-    - stage: deploy the apps
-      script: echo Apps deployed
+    - stage: Install
+      script: scripts/install
+    - stage: Unit Tests
+      script: scripts/test_unit
+    - stage: Integration Tests
+      script: scripts/test_integration
